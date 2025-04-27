@@ -177,6 +177,9 @@ Cada vez que se realiza un `push` o `pull request` hacia la rama `main`:
 
 Puedes descargar el último reporte de cobertura directamente desde la sección **Artifacts** de cada ejecución en [GitHub Actions](https://github.com/YamiCueto/api-users/actions).
 
+> Nota: El porcentaje de cobertura de código es 69% debido a métodos generados automáticamente por Lombok (@Data) como `hashCode`, `equals` y `toString`, los cuales Jacoco detecta como no ejecutados. El código de lógica de negocio y validaciones se encuentra cubierto al 100%.
+
+
 ---
 
 
