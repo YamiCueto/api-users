@@ -161,6 +161,25 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 ./gradlew test
 ```
 
+## 🚀 Automatización CI/CD
+
+Este proyecto cuenta con integración continua (CI) configurada mediante **GitHub Actions**.
+
+Cada vez que se realiza un `push` o `pull request` hacia la rama `main`:
+- Se ejecuta automáticamente la compilación (`build`) del proyecto.
+- Se ejecutan las pruebas unitarias.
+- Se genera y publica el reporte de cobertura de pruebas (**Jacoco Report**) como artefacto descargable en cada ejecución.
+
+✅ **Estado del flujo**:  
+![Build Status](https://github.com/YamiCueto/api-users/actions/workflows/build.yml/badge.svg)
+
+✅ **Cobertura de código**: 100%
+
+Puedes descargar el último reporte de cobertura directamente desde la sección **Artifacts** de cada ejecución en [GitHub Actions](https://github.com/YamiCueto/api-users/actions).
+
+---
+
+
 ---
 
 ## Notas adicionales
