@@ -10,4 +10,9 @@ class ApiApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void mainMethodStartsApplication() {
+		ApiApplication.main(new String[]{});
+	}
+
 }
