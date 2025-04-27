@@ -26,6 +26,8 @@ import com.cl.users.api.dto.UserRequestDTO;
 import com.cl.users.api.dto.UserResponseDTO;
 import com.cl.users.api.entity.Phone;
 import com.cl.users.api.entity.User;
+import com.cl.users.api.exception.DuplicateEmailException;
+import com.cl.users.api.exception.InvalidFormatException;
 import com.cl.users.api.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,9 +107,10 @@ public class UserServiceTest {
     void registerUserEmailAlreadyExists() {
         when(userRepository.existsByEmail(anyString())).thenReturn(true);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.registerUser(userRequestDTO));
+        DuplicateEmailException exception = assertThrows(DuplicateEmailException.class, 
+            () -> userService.registerUser(userRequestDTO));
         
-        assertEquals("El correo ya registrado", exception.getMessage());
+        assertEquals("El correo ya está registrado", exception.getMessage());
         verify(userRepository).existsByEmail(userRequestDTO.getEmail());
         verify(userRepository, never()).save(any(User.class));
     }
@@ -116,9 +119,10 @@ public class UserServiceTest {
     void registerUserInvalidEmail() {
         userRequestDTO.setEmail("invalid-email");
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.registerUser(userRequestDTO));
+        InvalidFormatException exception = assertThrows(InvalidFormatException.class, 
+            () -> userService.registerUser(userRequestDTO));
         
-        assertEquals("Formato de correo inválido", exception.getMessage());
+        assertEquals("Formato inválido para el campo: email", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -126,9 +130,10 @@ public class UserServiceTest {
     void registerUserInvalidPassword() {
         userRequestDTO.setPassword("weak");
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.registerUser(userRequestDTO));
+        InvalidFormatException exception = assertThrows(InvalidFormatException.class, 
+            () -> userService.registerUser(userRequestDTO));
         
-        assertEquals("Formato de contraseña inválido", exception.getMessage());
+        assertEquals("Formato inválido para el campo: password", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
     }
 } 

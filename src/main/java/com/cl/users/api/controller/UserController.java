@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,12 +25,8 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Registrar un nuevo usuario", description = "Crea un nuevo usuario en el sistema.")
-    public ResponseEntity<?> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
-        try {
-            UserResponseDTO response = userService.registerUser(userRequestDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", e.getMessage()));
-        }
+    public ResponseEntity<UserResponseDTO> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
+        UserResponseDTO response = userService.registerUser(userRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

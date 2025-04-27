@@ -11,6 +11,8 @@ import com.cl.users.api.dto.UserRequestDTO;
 import com.cl.users.api.dto.UserResponseDTO;
 import com.cl.users.api.entity.Phone;
 import com.cl.users.api.entity.User;
+import com.cl.users.api.exception.DuplicateEmailException;
+import com.cl.users.api.exception.InvalidFormatException;
 import com.cl.users.api.repository.UserRepository;
 
 @Service
@@ -31,15 +33,15 @@ public class UserService {
 
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
         if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
-            throw new RuntimeException("El correo ya registrado");
+            throw new DuplicateEmailException();
         }
 
         if (!userRequestDTO.getEmail().matches(emailRegex)) {
-            throw new RuntimeException("Formato de correo inválido");
+            throw new InvalidFormatException("email");
         }
 
         if (!userRequestDTO.getPassword().matches(passwordRegex)) {
-            throw new RuntimeException("Formato de contraseña inválido");
+            throw new InvalidFormatException("password");
         }
 
         User user = new User();

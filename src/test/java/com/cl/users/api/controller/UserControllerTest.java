@@ -2,11 +2,9 @@ package com.cl.users.api.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,13 +65,12 @@ public class UserControllerTest {
     void registerUserSuccess() {
         when(userService.registerUser(any(UserRequestDTO.class))).thenReturn(userResponseDTO);
 
-        ResponseEntity<?> response = userController.registerUser(userRequestDTO);
+        ResponseEntity<UserResponseDTO> response = userController.registerUser(userRequestDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertInstanceOf(UserResponseDTO.class, response.getBody());
         
-        UserResponseDTO responseBody = (UserResponseDTO) response.getBody();
+        UserResponseDTO responseBody = response.getBody();
         assertEquals(userId, responseBody.getId());
         assertEquals("test-token", responseBody.getToken());
         assertTrue(responseBody.isActive());
@@ -81,21 +78,5 @@ public class UserControllerTest {
         verify(userService).registerUser(userRequestDTO);
     }
 
-    @Test
-    void registerUserError() {
-        String errorMessage = "El correo ya registrado";
-        when(userService.registerUser(any(UserRequestDTO.class))).thenThrow(new RuntimeException(errorMessage));
 
-        ResponseEntity<?> response = userController.registerUser(userRequestDTO);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertInstanceOf(Map.class, response.getBody());
-        
-        @SuppressWarnings("unchecked")
-        Map<String, String> responseBody = (Map<String, String>) response.getBody();
-        assertEquals(errorMessage, responseBody.get("mensaje"));
-        
-        verify(userService).registerUser(userRequestDTO);
-    }
 } 
