@@ -21,7 +21,7 @@ Formato estándar de error:
 - H2 Database (en memoria)
 - JPA (Hibernate)
 - Gradle
-- (Opcional) JWT para manejo de tokens
+- JWT para manejo de tokens
 
 ---
 
